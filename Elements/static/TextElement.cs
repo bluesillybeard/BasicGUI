@@ -3,7 +3,7 @@ namespace BasicGUI;
 using BasicGUI.Core;
 public sealed class TextElement : AbstractElementNode
 {
-    public TextElement(IContainerNode parent, uint rgba, int fontSize, string text, object font, IDisplay display) : base(parent)
+    public TextElement(IContainerNode parent, uint rgba, int fontSize, string text, object font, IDisplay display, byte depth) : base(parent, depth)
     {
         this.rgba = rgba;
         this.fontSize = fontSize;
@@ -27,6 +27,6 @@ public sealed class TextElement : AbstractElementNode
     }
     public override void Draw(IDisplay display)
     {
-        display.DrawText(font, fontSize, _text, Bounds, rgba);
+        display.DrawText(font, fontSize, _text, Bounds, rgba, depth);
     }
 }

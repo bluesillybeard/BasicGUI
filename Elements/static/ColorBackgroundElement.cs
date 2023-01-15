@@ -4,7 +4,7 @@ using BasicGUI.Core;
 public class ColorBackgroundElement : AbstractElementNode
 {
     public uint color;
-    public ColorBackgroundElement(IContainerNode parent, uint color) : base(parent)
+    public ColorBackgroundElement(IContainerNode parent, uint color, byte depth) : base(parent, depth)
     {
         this.color = color;
     }
@@ -19,6 +19,6 @@ public class ColorBackgroundElement : AbstractElementNode
     public override void Draw(IDisplay display)
     {
         IContainerNode parent = GetParent();
-        display.FillRect(parent.XPos ?? 0, parent.YPos ?? 0, (parent.XPos ?? 0) + (parent.Width ?? 0), (parent.YPos ?? 0) + (parent.Height ?? 0), color);
+        display.FillRect(parent.XPos ?? 0, parent.YPos ?? 0, (parent.XPos ?? 0) + (parent.Width ?? 0), (parent.YPos ?? 0) + (parent.Height ?? 0), color, depth);
     }
 }

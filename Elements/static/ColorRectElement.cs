@@ -3,7 +3,7 @@ namespace BasicGUI;
 using BasicGUI.Core;
 public sealed class ColorRectElement : AbstractElementNode
 {
-    public ColorRectElement(IContainerNode parent, uint rgba, int? width, int? height) : base(parent)
+    public ColorRectElement(IContainerNode parent, uint rgba, int? width, int? height, byte depth) : base(parent, depth)
     {
         Width = width;
         Height = height;
@@ -16,6 +16,6 @@ public sealed class ColorRectElement : AbstractElementNode
         int y = YPos ?? 0;
         int width = Width ?? 0;
         int height = Height ?? 0;
-        display.FillRect(x, y, x + width, y + height, rgba);
+        display.FillRect(x, y, x + width, y + height, rgba, depth);
     }
 }

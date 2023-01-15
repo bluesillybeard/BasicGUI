@@ -4,7 +4,7 @@ using BasicGUI.Core;
 //This class is basically just a ColorRect element, except it draws four lines instead of filling it in.
 public sealed class ColorOutlineRectElement : AbstractElementNode
 {
-    public ColorOutlineRectElement(IContainerNode parent, uint rgba, int? width, int? height, int thickness) : base(parent)
+    public ColorOutlineRectElement(IContainerNode parent, uint rgba, int? width, int? height, int thickness, byte depth) : base(parent, depth)
     {
         Width = width;
         Height = height;
@@ -23,10 +23,10 @@ public sealed class ColorOutlineRectElement : AbstractElementNode
         int xf = x + width;
 		for (int offset = 0; offset < thickness; offset++)
 		{
-			display.DrawHorizontalLine(x + offset, xf - offset, y + offset, rgba);
-			display.DrawHorizontalLine(x + offset-1, xf - offset, yf - offset, rgba);
-			display.DrawVerticalLine  (x + offset, y + offset, yf - offset, rgba);
-			display.DrawVerticalLine  (xf - offset, y + offset, yf - offset, rgba);
+			display.DrawHorizontalLine(x + offset,   xf - offset, y + offset,  rgba, depth);
+			display.DrawHorizontalLine(x + offset-1, xf - offset, yf - offset, rgba, depth);
+			display.DrawVerticalLine  (x + offset,   y + offset,  yf - offset, rgba, depth);
+			display.DrawVerticalLine  (xf - offset,  y + offset,  yf - offset, rgba, depth);
 		}
     }
 }

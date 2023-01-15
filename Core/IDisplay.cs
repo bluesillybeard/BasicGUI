@@ -25,19 +25,19 @@ public interface IDisplay
     //call after drawing everything.
     void EndFrame();
     //DRAW METHODS
-    void DrawPixel(int x, int y, uint rgb, byte depth = 0);
-    void FillRect(int x0, int y0, int x1, int y1, uint rgb, byte depth = 0);
-    void DrawLine(int x1, int y1, int x2, int y2, uint rgb, byte depth = 0);
-    void DrawVerticalLine(int x, int y1, int y2, uint rgb, byte depth = 0);
-    void DrawHorizontalLine(int x1, int x2, int y, uint rgb, byte depth = 0);
-    void DrawImage(object image, int x, int y, byte depth = 0);
+    void DrawPixel(int x, int y, uint rgb, byte depth);
+    void FillRect(int x0, int y0, int x1, int y1, uint rgb, byte depth);
+    void DrawLine(int x1, int y1, int x2, int y2, uint rgb, byte depth);
+    void DrawVerticalLine(int x, int y1, int y2, uint rgb, byte depth);
+    void DrawHorizontalLine(int x1, int x2, int y, uint rgb, byte depth);
+    void DrawImage(object image, int x, int y, byte depth);
     //This method is no joke.
-    void DrawImage(object image, int x, int y, int width, int height, int srcx, int srcy, int srcwidth, int srcheight, byte depth = 0);
+    void DrawImage(object image, int x, int y, int width, int height, int srcx, int srcy, int srcwidth, int srcheight, byte depth);
     //Draw using a default font
-    void DrawText(int fontSize, string text, NodeBounds bounds, uint rgba);
+    void DrawText(int fontSize, string text, NodeBounds bounds, uint rgba, byte depth);
     //set the rendered size of a text element using the default font.
     void TextBounds(int fontSize, string text, out int width, out int height);
-    void DrawText(object font, int fontSize, string text, NodeBounds bounds, uint rgba);
+    void DrawText(object font, int fontSize, string text, NodeBounds bounds, uint rgba, byte depth);
     void TextBounds(object font, int fontSize, string text, out int width, out int height);
     //INPUTS AND OUTPUTS
     int GetMouseX();

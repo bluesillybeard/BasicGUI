@@ -2,9 +2,10 @@ namespace BasicGUI.Core;
 
 public abstract class AbstractElementNode : IElementNode
 {
-
-    public AbstractElementNode(IContainerNode parent)
+    public byte depth;
+    public AbstractElementNode(IContainerNode parent, byte depth)
     {
+        this.depth = depth;
         _parent = parent;
         parent.AddChild(this);
     }
