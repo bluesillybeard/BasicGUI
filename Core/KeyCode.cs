@@ -1,4 +1,4 @@
-namespace BasicGUI.Core;
+namespace BasicGUI;
 
 //Uses Javascript keycodes
 public enum KeyCode

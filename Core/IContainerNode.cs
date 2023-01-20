@@ -1,4 +1,4 @@
-namespace BasicGUI.Core;
+namespace BasicGUI;
 
 using System.Collections.Generic;
 public interface IContainerNode : INode

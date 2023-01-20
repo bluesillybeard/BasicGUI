@@ -1,4 +1,4 @@
-namespace BasicGUI.Core;
+namespace BasicGUI;
 
 //Represents an indeterminant position.
 public struct NodeBounds

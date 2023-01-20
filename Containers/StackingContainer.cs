@@ -1,7 +1,7 @@
 //This container works by stacking elements one after the other in a certain direction.
 namespace BasicGUI;
 
-using BasicGUI.Core;
+using BasicGUI;
 
 //Similar to Godots HBoxContainer or VBoxContainer, except the direction is a variable rather than a completely separate class.
 public enum StackDirection

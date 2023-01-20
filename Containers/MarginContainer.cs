@@ -1,6 +1,6 @@
 namespace BasicGUI;
 
-using BasicGUI.Core;
+using BasicGUI;
 
 public sealed class MarginContainer : AbstractContainerNode
 {

@@ -1,6 +1,6 @@
 namespace BasicGUI;
 
-using BasicGUI.Core;
+using BasicGUI;
 using System.Collections.Generic;
 /**
  * This is a container that anchors container children to a certain position relative to its parent.

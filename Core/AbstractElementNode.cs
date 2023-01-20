@@ -1,4 +1,4 @@
-namespace BasicGUI.Core;
+namespace BasicGUI;
 
 public abstract class AbstractElementNode : IElementNode
 {

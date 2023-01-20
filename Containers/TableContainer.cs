@@ -1,5 +1,5 @@
 namespace BasicGUI;
-using BasicGUI.Core;
+using BasicGUI;
 using System;
 using System.Collections.Generic;
 //This class is a mess.

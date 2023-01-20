@@ -1,6 +1,4 @@
 namespace BasicGUI;
-
-using BasicGUI.Core;
 public class ColorBackgroundElement : AbstractElementNode
 {
     public uint color;

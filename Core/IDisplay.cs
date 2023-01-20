@@ -1,4 +1,4 @@
-namespace BasicGUI.Core;
+namespace BasicGUI;
 
 using System.Collections.Generic;
 //You must implement this class in order to integrate this into your project.

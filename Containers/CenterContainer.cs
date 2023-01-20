@@ -1,6 +1,6 @@
 namespace BasicGUI;
 
-using BasicGUI.Core;
+using BasicGUI;
 using System.Numerics;
 using System.Collections.Generic;
 /**

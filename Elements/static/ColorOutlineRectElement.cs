@@ -1,6 +1,5 @@
 namespace BasicGUI;
 
-using BasicGUI.Core;
 //This class is basically just a ColorRect element, except it draws four lines instead of filling it in.
 public sealed class ColorOutlineRectElement : AbstractElementNode
 {

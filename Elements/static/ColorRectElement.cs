@@ -1,6 +1,4 @@
 namespace BasicGUI;
-
-using BasicGUI.Core;
 public sealed class ColorRectElement : AbstractElementNode
 {
     public ColorRectElement(IContainerNode parent, uint rgba, int? width, int? height, byte depth) : base(parent, depth)
