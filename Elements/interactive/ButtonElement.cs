@@ -9,24 +9,33 @@ using System;
 // There are two ways to use a Button: boolean flags read each iteration, or function callbacks. You can use both at the same time if you would like.
 public sealed class ButtonElement : IContainerNode
 {
-    public INode? drawable; //This is the element that actually gets drawn as the button.
-    public bool hovered; //if this button is currently being hovered over.
-    public bool clicked; //If this button is currently being held down
-    public Action<ButtonElement>? hover;
-    public Action<ButtonElement>? click;
-    public Action<ButtonElement>? frame;
+    public INode? drawable; //This is the element that actually gets drawn as the button.\
+    public bool wasHover;
+    public bool isHover;
+    public bool isDown;
+    public bool wasDown;
+    public Action<ButtonElement>? OnHover;
+    public Action<ButtonElement>? OnUnHover;
+    public Action<ButtonElement>? OnClick;
+    public Action<ButtonElement>? OnUnClick;
+    public Action<ButtonElement>? OnFrame;
 
-    public ButtonElement(IContainerNode? parent, Action<ButtonElement>? hoverFrame, Action<ButtonElement>? clickFrame, Action<ButtonElement>? frame)
+    public ButtonElement(IContainerNode? parent, 
+    Action<ButtonElement>? onHover, Action<ButtonElement>? onUnHover,
+    Action<ButtonElement>? onClick, Action<ButtonElement>? onUnClick,
+    Action<ButtonElement>? onFrame)
     {
         this.drawable = null;
         _parent = parent;
         if(parent is not null)parent.AddChild(this);
-        click = clickFrame;
-        hover = hoverFrame;
-        this.frame = frame;
+        this.OnClick = onClick;
+        this.OnUnClick = onUnClick;
+        this.OnHover = onHover;
+        this.OnUnHover = onUnHover;
+        this.OnFrame = onFrame;
     }
 
-    public ButtonElement(IContainerNode parent) : this(parent, null, null, null){}
+    public ButtonElement(IContainerNode parent) : this(parent, null, null, null, null, null){}
 
     public List<INode> GetChildren()
     {
@@ -40,7 +49,7 @@ public sealed class ButtonElement : IContainerNode
 
     public void Iterate()
     {
-        if(frame is not null)frame(this);
+        if(OnFrame is not null)OnFrame(this);
     }
 
     public INode? GetSelectedNode()
@@ -59,21 +68,22 @@ public sealed class ButtonElement : IContainerNode
     }
     public void Interact(IDisplay display)
     {
-        hovered = false;
-        clicked = false; //reset variables
+        wasDown = isDown;
+        isDown = false;
+        wasHover = isHover;
+        isHover = false;
         if(Bounds.ContainsPoint(display.GetMouseX(), display.GetMouseY()))
         {
-            hovered = true;
-            //it's either clicked or hovered, not both.
-            if(display.LeftMouseDown()){
-                clicked = true;
-                if(click is not null)click(this);
-            }
-            else
+            isHover = true;
+            if(display.LeftMouseDown())
             {
-                if(hover is not null)hover(this);
+                isDown = true;
             }
         }
+        if(isHover && !wasHover && OnHover is not null)OnHover(this);
+        else if(!isHover && wasHover && OnUnHover is not null)OnUnHover(this);
+        if(isDown && !wasDown && OnClick is not null)OnClick(this);
+        else if(!isDown && wasDown && OnUnClick is not null)OnUnClick(this);
     }
 
     public void Draw(IDisplay display)
