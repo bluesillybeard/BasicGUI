@@ -11,7 +11,7 @@ public struct NodeBounds
         set
         {
             _w = value;
-            if(_w <= MW)_w = MW;
+            if(_w is not null && MW is not null && _w < MW)_w = MW;
         }
     }
     public int? H
@@ -20,7 +20,7 @@ public struct NodeBounds
         set
         {
             _h = value;
-            if(_h <= MH)_w = MH;
+            if(_h is not null && MH is not null && _h < MH)_w = MH;
         }
     }
 

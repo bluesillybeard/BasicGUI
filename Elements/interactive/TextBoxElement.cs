@@ -84,6 +84,7 @@ public sealed class TextBoxElement : IContainerNode
     public void Draw(IDisplay display)
     {
         if(back is not null)back.Draw(display);
+        text.Draw(display);
     }
     public void Absolutize()
     {
@@ -94,7 +95,16 @@ public sealed class TextBoxElement : IContainerNode
             this.XPos += _parent.XPos ?? 0;
             this.YPos += _parent.YPos ?? 0;
         }
-
+        text.XPos = XPos;
+        text.YPos = YPos;
+        if(back is not null)
+        {
+            //We don't want to override the minimum size
+            back.XPos = text.XPos;
+            back.YPos = text.YPos;
+            back.Width = text.Width;
+            back.Height = text.Height;
+        }
     }
     public IContainerNode? GetParent()=> _parent;
 
