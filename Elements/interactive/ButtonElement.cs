@@ -108,7 +108,7 @@ public sealed class ButtonElement : IContainerNode
         } 
         get {
             if(drawable is not null)return drawable.Bounds;
-            else return new NodeBounds(null, null, null, null);
+            else return new NodeBounds(null, null, null, null, null, null);
         }
     }
     //Note: these tend to behave oddly when the drawable hasn't been set.
@@ -145,6 +145,24 @@ public sealed class ButtonElement : IContainerNode
         }
         get {
             if(drawable is not null) return drawable.Height;
+            else return null;
+        }
+    }
+    public int? MinWidth {
+        set {
+            if(drawable is not null)drawable.MinWidth = value;
+        }
+        get {
+            if(drawable is not null) return drawable.MinWidth;
+            else return null;
+        }
+    }
+    public int? MinHeight {
+        set {
+            if(drawable is not null)drawable.MinHeight = value;
+        }
+        get {
+            if(drawable is not null) return drawable.MinHeight;
             else return null;
         }
     }

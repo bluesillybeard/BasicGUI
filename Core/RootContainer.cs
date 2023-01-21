@@ -57,7 +57,7 @@ public class RootContainer : IContainerNode
 
 
     public NodeBounds Bounds {
-        get => new NodeBounds(0, 0, Width, Height);
+        get => new NodeBounds(0, 0, Width, Height, 0, 0);
         set {
             //XPos and YPos must always be 0, so the position is ignored.
             Width = value.W;
@@ -68,6 +68,8 @@ public class RootContainer : IContainerNode
     public int? YPos {set {} get => 0;}
     public int? Width {set => _width = value ?? 0; get => _width;}
     public int? Height {set => _height = value ?? 0; get => _height;}
+    public int? MinWidth {set {} get => 0;}
+    public int? MinHeight {set {} get => 0;}
     public List<INode> GetChildren() => _children;
     public void AddChild(INode child) {_children.Add(child);}
 

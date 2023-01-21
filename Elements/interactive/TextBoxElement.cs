@@ -104,7 +104,7 @@ public sealed class TextBoxElement : IContainerNode
         } 
         get {
             if(back is not null)return back.Bounds;
-            else return new NodeBounds(null, null, null, null);
+            else return new NodeBounds(null, null, null, null, null, null);
         }
     }
     //Note: these tend to behave oddly when the drawable hasn't been set.
@@ -141,6 +141,24 @@ public sealed class TextBoxElement : IContainerNode
         }
         get {
             if(back is not null) return back.Height;
+            else return null;
+        }
+    }
+        public int? MinWidth {
+        set {
+            if(back is not null)back.MinWidth = value;
+        }
+        get {
+            if(back is not null) return back.MinWidth;
+            else return null;
+        }
+    }
+    public int? MinHeight {
+        set {
+            if(back is not null)back.MinHeight = value;
+        }
+        get {
+            if(back is not null) return back.MinHeight;
             else return null;
         }
     }

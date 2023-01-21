@@ -9,7 +9,7 @@ public class ColorBackgroundElement : AbstractElementNode
     public override void Interact(IDisplay display)
     {
         //Set size to zero so there isn't any effect the placement of other objects.
-        this.Bounds = new NodeBounds(null, null, 0, 0);
+        this.Bounds = new NodeBounds(null, null, 0, 0, null, null);
         if(this.GetParent() is AbstractContainerNode parent) parent.shrink = false;
         base.Interact(display);
     }
