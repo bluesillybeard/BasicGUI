@@ -13,12 +13,13 @@ using System.Collections.Generic;
 
 public sealed class CenterContainer : AbstractContainerNode
 {
-    public CenterContainer(IContainerNode parent, List<INode> children) : base(parent, children){}
-    public CenterContainer(IContainerNode parent) : base(parent){}
+    public CenterContainer(IContainerNode? parent, List<INode> children) : base(parent, children){}
+    public CenterContainer(IContainerNode? parent) : base(parent){}
     protected override void PositionChildren()
     {
-        int? parentWidth = GetParent().Width;
-        int? parentHeight = GetParent().Height;
+        IContainerNode? parent = GetParent();
+        int? parentWidth = parent is null ? null : parent.Width;
+        int? parentHeight = parent is null ? null : parent.Height;
         if(parentHeight is null || parentWidth is null)
         {
             System.Console.Error.WriteLine("BIG ERROR: invalid parent bounds within CenterContainer");

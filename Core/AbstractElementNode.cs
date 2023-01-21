@@ -3,11 +3,11 @@ namespace BasicGUI;
 public abstract class AbstractElementNode : IElementNode
 {
     public byte depth;
-    public AbstractElementNode(IContainerNode parent, byte depth)
+    public AbstractElementNode(IContainerNode? parent, byte depth)
     {
         this.depth = depth;
         _parent = parent;
-        parent.AddChild(this);
+        if(parent is not null)parent.AddChild(this);
     }
     public virtual void Interact(IDisplay display) {}
 
@@ -16,10 +16,13 @@ public abstract class AbstractElementNode : IElementNode
     {
         XPos = XPos ?? 0;//set null values to zero
         YPos = YPos ?? 0;
-        this.XPos += _parent.XPos ?? 0;
-        this.YPos += _parent.YPos ?? 0;
+        if(_parent is not null)
+        {
+            this.XPos += _parent.XPos ?? 0;
+            this.YPos += _parent.YPos ?? 0;
+        }
     }
-    public IContainerNode GetParent()=> _parent;
+    public IContainerNode? GetParent()=> _parent;
 
     public NodeBounds Bounds {set => _bounds = value; get => _bounds;}
     public int? XPos {set => _bounds.X = value; get => _bounds.X;}
@@ -27,7 +30,7 @@ public abstract class AbstractElementNode : IElementNode
     public int? Width {set => _bounds.W = value; get => _bounds.W;}
     public int? Height {set => _bounds.H = value; get => _bounds.H;}
 
-    private IContainerNode _parent;
+    private IContainerNode? _parent;
     private NodeBounds _bounds;
 
     

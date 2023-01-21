@@ -1,7 +1,7 @@
 namespace BasicGUI;
 public sealed class TextElement : AbstractElementNode
 {
-    public TextElement(IContainerNode parent, uint rgba, int fontSize, string text, object font, IDisplay display, byte depth) : base(parent, depth)
+    public TextElement(IContainerNode? parent, uint rgba, int fontSize, string text, object font, IDisplay display, byte depth) : base(parent, depth)
     {
         this.rgba = rgba;
         this.fontSize = fontSize;

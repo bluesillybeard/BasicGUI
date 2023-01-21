@@ -12,11 +12,11 @@ public sealed class TextBoxElement : IContainerNode
     private TextElement text; //the text object to render the text.
 
     public string GetText() {return text.Text;}
-    public TextBoxElement(IContainerNode parent, int fontSize, uint fontColor, object font, IDisplay display, byte depth)
+    public TextBoxElement(IContainerNode? parent, int fontSize, uint fontColor, object font, IDisplay display, byte depth)
     {
         back = null;
         _parent = parent;
-        parent.AddChild(this);
+        if(parent is not null)parent.AddChild(this);
         text = new TextElement(this, fontColor, fontSize, "", font, display, depth);
     }
     public List<INode> GetChildren()
@@ -38,12 +38,12 @@ public sealed class TextBoxElement : IContainerNode
 
     public INode? GetSelectedNode()
     {
-        return _parent.GetSelectedNode();
+        return _parent is null ? null : _parent.GetSelectedNode();
     }
 
     public void OnSelect(INode selection)
     {
-        _parent.OnSelect(selection);
+        if(_parent is not null)_parent.OnSelect(selection);
     }
 
     public void AddChild(INode node)
@@ -89,10 +89,14 @@ public sealed class TextBoxElement : IContainerNode
     {
         XPos = XPos ?? 0;//set null values to zero
         YPos = YPos ?? 0;
-        this.XPos += _parent.XPos ?? 0;
-        this.YPos += _parent.YPos ?? 0;
+        if(_parent is not null)
+        {
+            this.XPos += _parent.XPos ?? 0;
+            this.YPos += _parent.YPos ?? 0;
+        }
+
     }
-    public IContainerNode GetParent()=> _parent;
+    public IContainerNode? GetParent()=> _parent;
 
     public NodeBounds Bounds {
         set {
@@ -140,7 +144,7 @@ public sealed class TextBoxElement : IContainerNode
             else return null;
         }
     }
-    private IContainerNode _parent;
+    private IContainerNode? _parent;
 
     private List<INode>? __childCache;
 }

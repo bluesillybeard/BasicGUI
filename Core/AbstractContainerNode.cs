@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Numerics;
 public abstract class AbstractContainerNode : IContainerNode
 {
-    public AbstractContainerNode(IContainerNode parent) : this(parent, new List<INode>()){}
-    public AbstractContainerNode(IContainerNode parent, bool shrink) : this(parent, new List<INode>(), shrink){}
-    public AbstractContainerNode(IContainerNode parent, List<INode> children, bool shrink = true)
+    public AbstractContainerNode(IContainerNode? parent) : this(parent, new List<INode>()){}
+    public AbstractContainerNode(IContainerNode? parent, bool shrink) : this(parent, new List<INode>(), shrink){}
+    public AbstractContainerNode(IContainerNode? parent, List<INode> children, bool shrink = true)
     {
         _children = children;
         _parent = parent;
         this.shrink = shrink;
-        parent.AddChild(this);
+        if(parent is not null)parent.AddChild(this);
     }
     public bool shrink; //weather or not to shrink the bounds of this container to the elements it contains.
     //IMPORTANT: Custom nodes that use this class as a base MUST implement this function. No exceptions.
     protected abstract void PositionChildren();
-    public IContainerNode GetParent() => _parent;
+    public IContainerNode? GetParent() => _parent;
 
     void DetermineBounds()
     {
@@ -63,8 +63,11 @@ public abstract class AbstractContainerNode : IContainerNode
     {
         XPos = XPos ?? 0;//set null values to zero
         YPos = YPos ?? 0;
-        this.XPos += _parent.XPos ?? 0;
-        this.YPos += _parent.YPos ?? 0;
+        if(_parent is not null)
+        {
+            this.XPos += _parent.XPos ?? 0;
+            this.YPos += _parent.YPos ?? 0;
+        }
         foreach(INode child in _children){
             child.Absolutize();
         }
@@ -88,12 +91,12 @@ public abstract class AbstractContainerNode : IContainerNode
 
     public INode? GetSelectedNode()
     {
-        return _parent.GetSelectedNode();
+        return _parent is null ? null : _parent.GetSelectedNode();
     }
 
     public void OnSelect(INode selection)
     {
-        _parent.OnSelect(selection);
+        if(_parent is not null)_parent.OnSelect(selection);
     }
 
     public NodeBounds Bounds {set => _bounds = value; get => _bounds;}
@@ -105,7 +108,7 @@ public abstract class AbstractContainerNode : IContainerNode
     public void AddChild(INode child) {_children.Add(child);}
 
 
-    private IContainerNode _parent;
+    private IContainerNode? _parent;
     private NodeBounds _bounds;
 
 

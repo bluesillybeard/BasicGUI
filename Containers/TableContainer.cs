@@ -8,7 +8,7 @@ public sealed class TableContainer : IContainerNode
 {
     public Func<TableContainer, INode> boxFactory;
     public int columns;
-    public IContainerNode GetParent() => _parent;
+    public IContainerNode? GetParent() => _parent;
     public void Interact(IDisplay display) 
     {
         foreach(INode node in _children)
@@ -19,20 +19,20 @@ public sealed class TableContainer : IContainerNode
 
     public INode? GetSelectedNode()
     {
-        return _parent.GetSelectedNode();
+        return _parent is null ? null : _parent.GetSelectedNode();
     }
 
     public void OnSelect(INode selection)
     {
-        _parent.OnSelect(selection);
+        if(_parent is not null) _parent.OnSelect(selection);
     }
 
-    public TableContainer(Func<TableContainer, INode> unboundedBoxfactory, int columns, List<INode> children, IContainerNode parent, int margin)
+    public TableContainer(Func<TableContainer, INode> unboundedBoxfactory, int columns, List<INode> children, IContainerNode? parent, int margin)
     {
         acceptChildren = true;
         _children = children;
         _parent = parent;
-        parent.AddChild(this);
+        if(parent is not null)parent.AddChild(this);
         boxFactory = unboundedBoxfactory;
         this.columns = columns;
         boundBoxes = new List<INode>();
@@ -132,8 +132,10 @@ public sealed class TableContainer : IContainerNode
     {
         XPos = XPos ?? 0;//set null values to zero
         YPos = YPos ?? 0;
-        this.XPos += _parent.XPos ?? 0;
-        this.YPos += _parent.YPos ?? 0;
+        if(_parent is not null){
+            this.XPos += _parent.XPos ?? 0;
+            this.YPos += _parent.YPos ?? 0;
+        }
         foreach(INode child in _children){
             child.Absolutize();
         }
@@ -210,7 +212,7 @@ public sealed class TableContainer : IContainerNode
     private int _margin;
 
 
-    private IContainerNode _parent;
+    private IContainerNode? _parent;
     private NodeBounds _bounds;
 
 

@@ -16,18 +16,19 @@ public enum HAllign{
 
 public sealed class LayoutContainer : AbstractContainerNode
 {
-    public LayoutContainer(IContainerNode parent, List<INode> children, VAllign vertical, HAllign horizontal) : base(parent, children)
+    public LayoutContainer(IContainerNode? parent, List<INode> children, VAllign vertical, HAllign horizontal) : base(parent, children)
     {
         this.vertical = vertical;
         this.horizontal = horizontal;
     }
-    public LayoutContainer(IContainerNode parent, VAllign vertical, HAllign horizontal) : this(parent, new List<INode>(), vertical, horizontal) {}
+    public LayoutContainer(IContainerNode? parent, VAllign vertical, HAllign horizontal) : this(parent, new List<INode>(), vertical, horizontal) {}
     public VAllign vertical;
     public HAllign horizontal;
     protected override void PositionChildren()
     {
-        int? parentWidth = GetParent().Width;
-        int? parentHeight = GetParent().Height;
+        IContainerNode? parent = GetParent();
+        int? parentWidth = parent is null ? null : parent.Width;
+        int? parentHeight = parent is null ? null : parent.Height;
         if(parentHeight is null || parentWidth is null)
         {
             System.Console.Error.WriteLine("ERROR: invalid parent bounds within LayoutContainer");

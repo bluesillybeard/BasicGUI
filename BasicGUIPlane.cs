@@ -1,5 +1,4 @@
 namespace BasicGUI;
-using BasicGUI.Core;
 public sealed class BasicGUIPlane
 {
     public BasicGUIPlane(int width, int height, IDisplay display)

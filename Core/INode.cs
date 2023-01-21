@@ -3,7 +3,6 @@ namespace BasicGUI;
 using System.Numerics;
 public interface INode
 {
-    //The Root containers don't have parents, so there is a possibility if this being null.
     IContainerNode? GetParent();
     //These return null if it's unset, a value if it is set.
     NodeBounds Bounds {get;set;}

@@ -16,11 +16,11 @@ public sealed class ButtonElement : IContainerNode
     public Action<ButtonElement>? click;
     public Action<ButtonElement>? frame;
 
-    public ButtonElement(IContainerNode parent, Action<ButtonElement>? hoverFrame, Action<ButtonElement>? clickFrame, Action<ButtonElement>? frame)
+    public ButtonElement(IContainerNode? parent, Action<ButtonElement>? hoverFrame, Action<ButtonElement>? clickFrame, Action<ButtonElement>? frame)
     {
         this.drawable = null;
         _parent = parent;
-        parent.AddChild(this);
+        if(parent is not null)parent.AddChild(this);
         click = clickFrame;
         hover = hoverFrame;
         this.frame = frame;
@@ -45,12 +45,12 @@ public sealed class ButtonElement : IContainerNode
 
     public INode? GetSelectedNode()
     {
-        return _parent.GetSelectedNode();
+        return _parent is null ? null : _parent.GetSelectedNode();
     }
 
     public void OnSelect(INode selection)
     {
-        _parent.OnSelect(selection);
+        if(_parent is not null)_parent.OnSelect(selection);
     }
 
     public void AddChild(INode node)
@@ -84,10 +84,13 @@ public sealed class ButtonElement : IContainerNode
     {
         XPos = XPos ?? 0;//set null values to zero
         YPos = YPos ?? 0;
-        this.XPos += _parent.XPos ?? 0;
-        this.YPos += _parent.YPos ?? 0;
+        if(_parent is not null)
+        {
+            this.XPos += _parent.XPos ?? 0;
+            this.YPos += _parent.YPos ?? 0;
+        }
     }
-    public IContainerNode GetParent()=> _parent;
+    public IContainerNode? GetParent()=> _parent;
 
     public NodeBounds Bounds {
         set {
@@ -135,7 +138,7 @@ public sealed class ButtonElement : IContainerNode
             else return null;
         }
     }
-    private IContainerNode _parent;
+    private IContainerNode? _parent;
 
     private List<INode>? __childCache;
 }

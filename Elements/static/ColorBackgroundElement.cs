@@ -2,7 +2,7 @@ namespace BasicGUI;
 public class ColorBackgroundElement : AbstractElementNode
 {
     public uint color;
-    public ColorBackgroundElement(IContainerNode parent, uint color, byte depth) : base(parent, depth)
+    public ColorBackgroundElement(IContainerNode? parent, uint color, byte depth) : base(parent, depth)
     {
         this.color = color;
     }
@@ -16,7 +16,8 @@ public class ColorBackgroundElement : AbstractElementNode
 
     public override void Draw(IDisplay display)
     {
-        IContainerNode parent = GetParent();
-        display.FillRect(parent.XPos ?? 0, parent.YPos ?? 0, (parent.XPos ?? 0) + (parent.Width ?? 0), (parent.YPos ?? 0) + (parent.Height ?? 0), color, depth);
+        IContainerNode? parent = GetParent();
+        NodeBounds bounds = parent is null ? new NodeBounds() : parent.Bounds;
+        display.FillRect(bounds.X ?? 0, bounds.Y ?? 0, (bounds.X ?? 0) + (bounds.W ?? 0), (bounds.Y ?? 0) + (bounds.H ?? 0), color, depth);
     }
 }

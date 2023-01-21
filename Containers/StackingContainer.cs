@@ -12,7 +12,7 @@ public sealed class StackingContainer : AbstractContainerNode
 {
     public StackDirection direction;
     public int separation;
-    public StackingContainer(IContainerNode parent, StackDirection direction, int separation = 0) : base(parent)
+    public StackingContainer(IContainerNode? parent, StackDirection direction, int separation = 0) : base(parent)
     {
         this.direction = direction;
         this.separation = separation;
