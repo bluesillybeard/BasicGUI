@@ -52,7 +52,22 @@ public sealed class TextBoxElement : IContainerNode
     }
     public void Interact(IDisplay display)
     {
-        //TODO
+        if(this == GetSelectedNode())
+        {
+            HandleTyping(display);
+        }
+        else
+        {
+            //Check to see if we are being selected
+            if(Bounds.ContainsPoint(display.GetMouseX(), display.GetMouseY()) && display.LeftMousePressed())
+            {
+                OnSelect(this);
+            }
+        }
+    }
+
+    private void HandleTyping(IDisplay display)
+    {
         bool caps = display.CapsLock();
         bool shift = display.KeyDown(KeyCode.shift);
         bool num = display.NumLock();
@@ -77,8 +92,7 @@ public sealed class TextBoxElement : IContainerNode
                 }
             }
         }
-        text.Text = builder.ToString();
-
+            text.Text = builder.ToString();
     }
 
     public void Draw(IDisplay display)
