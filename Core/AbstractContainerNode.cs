@@ -98,7 +98,7 @@ public abstract class AbstractContainerNode : IContainerNode
         return _parent is null ? null : _parent.GetSelectedNode();
     }
 
-    public void OnSelect(INode selection)
+    public void OnSelect(INode? selection)
     {
         if(_parent is not null)_parent.OnSelect(selection);
     }
@@ -110,9 +110,10 @@ public abstract class AbstractContainerNode : IContainerNode
     public int? Height {set => _bounds.H = value; get => _bounds.H;}
     public int? MinWidth {set => _bounds.MW = value; get => _bounds.MW;}
     public int? MinHeight {set => _bounds.MH = value; get => _bounds.MH;}
-    public List<INode> GetChildren() => _children;
+    public IReadOnlyList<INode> GetChildren() => _children;
     public void AddChild(INode child) {_children.Add(child);}
-
+    public void AddChildBeginning(INode child) {_children.Insert(0, child);}
+    public void RemoveChild(INode child) {_children.Remove(child);}
 
     private IContainerNode? _parent;
     private NodeBounds _bounds;

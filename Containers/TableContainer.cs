@@ -26,7 +26,7 @@ public sealed class TableContainer : IContainerNode
         return _parent is null ? null : _parent.GetSelectedNode();
     }
 
-    public void OnSelect(INode selection)
+    public void OnSelect(INode? selection)
     {
         if(_parent is not null) _parent.OnSelect(selection);
     }
@@ -50,10 +50,19 @@ public sealed class TableContainer : IContainerNode
         if(acceptChildren)
             _children.Add(child);
     }
+    public void AddChildBeginning(INode child)
+    {
+        if(acceptChildren)
+            _children.Insert(0, child);
+    }
+    public void RemoveChild(INode child)
+    {
+        _children.Remove(child);
+    }
     public void Iterate(){
         //Make sure we have enough bounding boxes to surround the elements.
         int numBoxes = boundBoxes.Count;
-        List<INode> children = GetChildren();
+        IReadOnlyList<INode> children = GetChildren();
         int numChildren = children.Count;
         if(numBoxes < children.Count)
         {
@@ -83,7 +92,7 @@ public sealed class TableContainer : IContainerNode
     }
     private void PositionChildren()
     {
-        List<INode> children = GetChildren();
+        IReadOnlyList<INode> children = GetChildren();
         int numChildren = children.Count;
         //Determine the max sizes for the rows and columns. (the min size that fits all the elements is the max of their sizes)
         int[] columnMaxes = new int[columns];
@@ -213,7 +222,7 @@ public sealed class TableContainer : IContainerNode
     public int? Height {set => _bounds.H = value; get => _bounds.H;}
     public int? MinWidth {set => _bounds.MW = value; get => _bounds.MW;}
     public int? MinHeight {set => _bounds.MH = value; get => _bounds.MH;}
-    public List<INode> GetChildren() => _children;
+    public IReadOnlyList<INode> GetChildren() => _children;
 
     private int _margin;
 

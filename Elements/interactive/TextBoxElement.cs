@@ -19,16 +19,10 @@ public sealed class TextBoxElement : IContainerNode
         if(parent is not null)parent.AddChild(this);
         text = new TextElement(this, fontColor, fontSize, "", font, display, depth);
     }
-    public List<INode> GetChildren()
+    public IReadOnlyList<INode> GetChildren()
     {
-        if(__childCache is null)
-        {
-            __childCache = new List<INode>();
-            if(back is not null)__childCache.Add(back);
-            __childCache.Add(text);
-        }
-
-        return __childCache ?? new List<INode>();
+        if(back is not null)return new List<INode>(new INode[]{back, text});
+        return new List<INode>(new INode[]{text});
     }
 
     public void Iterate()
@@ -41,7 +35,7 @@ public sealed class TextBoxElement : IContainerNode
         return _parent is null ? null : _parent.GetSelectedNode();
     }
 
-    public void OnSelect(INode selection)
+    public void OnSelect(INode? selection)
     {
         if(_parent is not null)_parent.OnSelect(selection);
     }
@@ -49,6 +43,14 @@ public sealed class TextBoxElement : IContainerNode
     public void AddChild(INode node)
     {
         back = node;
+    }
+    public void AddChildBeginning(INode node)
+    {
+        back = node;
+    }
+    public void RemoveChild(INode node)
+    {
+        if(back == node)back = null;
     }
     public void Interact(IDisplay display)
     {
@@ -190,6 +192,4 @@ public sealed class TextBoxElement : IContainerNode
         }
     }
     private IContainerNode? _parent;
-
-    private List<INode>? __childCache;
 }

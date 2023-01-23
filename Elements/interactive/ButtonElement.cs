@@ -37,14 +37,11 @@ public sealed class ButtonElement : IContainerNode
 
     public ButtonElement(IContainerNode parent) : this(parent, null, null, null, null, null){}
 
-    public List<INode> GetChildren()
+    public IReadOnlyList<INode> GetChildren()
     {
-        if(__childCache is null && drawable is not null)
-        {
-            __childCache = new List<INode>();
-            __childCache.Add(drawable);
-        }
-        return __childCache ?? new List<INode>();
+        //TODO: more optimized version that doesn't needlessly allocating memory
+        if(drawable is not null)return new List<INode>(new INode[]{drawable});
+        return new List<INode>();
     }
 
     public void Iterate()
@@ -57,7 +54,7 @@ public sealed class ButtonElement : IContainerNode
         return _parent is null ? null : _parent.GetSelectedNode();
     }
 
-    public void OnSelect(INode selection)
+    public void OnSelect(INode? selection)
     {
         if(_parent is not null)_parent.OnSelect(selection);
     }
@@ -65,6 +62,14 @@ public sealed class ButtonElement : IContainerNode
     public void AddChild(INode node)
     {
         drawable = node;
+    }
+    public void AddChildBeginning(INode node)
+    {
+        drawable = node;
+    }
+    public void RemoveChild(INode node)
+    {
+        if(drawable == node)drawable = null;
     }
     public void Interact(IDisplay display)
     {

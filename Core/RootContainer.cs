@@ -53,7 +53,7 @@ public class RootContainer : IContainerNode
         return _selection;
     }
 
-    public void OnSelect(INode selection)
+    public void OnSelect(INode? selection)
     {
         _selection = selection;
     }
@@ -73,8 +73,11 @@ public class RootContainer : IContainerNode
     public int? Height {set => _height = value ?? 0; get => _height;}
     public int? MinWidth {set {} get => 0;}
     public int? MinHeight {set {} get => 0;}
-    public List<INode> GetChildren() => _children;
+    public IReadOnlyList<INode> GetChildren() => _children;
     public void AddChild(INode child) {_children.Add(child);}
+    public void AddChildBeginning(INode child) {_children.Insert(0, child);}
+    public void RemoveChild(INode child) {_children.Remove(child);}
+    
 
     private List<INode> _children;
     private int _width;
