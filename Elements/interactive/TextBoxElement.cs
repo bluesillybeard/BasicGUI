@@ -52,7 +52,22 @@ public sealed class TextBoxElement : IContainerNode
     }
     public void Interact(IDisplay display)
     {
-        //TODO
+        if(this == GetSelectedNode())
+        {
+            HandleTyping(display);
+        }
+        else
+        {
+            //Check to see if we are being selected
+            if(Bounds.ContainsPoint(display.GetMouseX(), display.GetMouseY()) && display.LeftMousePressed())
+            {
+                OnSelect(this);
+            }
+        }
+    }
+
+    private void HandleTyping(IDisplay display)
+    {
         bool caps = display.CapsLock();
         bool shift = display.KeyDown(KeyCode.shift);
         bool num = display.NumLock();
@@ -77,13 +92,13 @@ public sealed class TextBoxElement : IContainerNode
                 }
             }
         }
-        text.Text = builder.ToString();
-
+            text.Text = builder.ToString();
     }
 
     public void Draw(IDisplay display)
     {
         if(back is not null)back.Draw(display);
+        text.Draw(display);
     }
     public void Absolutize()
     {
@@ -94,7 +109,16 @@ public sealed class TextBoxElement : IContainerNode
             this.XPos += _parent.XPos ?? 0;
             this.YPos += _parent.YPos ?? 0;
         }
-
+        text.XPos = XPos;
+        text.YPos = YPos;
+        if(back is not null)
+        {
+            //We don't want to override the minimum size
+            back.XPos = text.XPos;
+            back.YPos = text.YPos;
+            back.Width = text.Width;
+            back.Height = text.Height;
+        }
     }
     public IContainerNode? Parent
     {
@@ -107,7 +131,7 @@ public sealed class TextBoxElement : IContainerNode
         } 
         get {
             if(back is not null)return back.Bounds;
-            else return new NodeBounds(null, null, null, null);
+            else return new NodeBounds(null, null, null, null, null, null);
         }
     }
     //Note: these tend to behave oddly when the drawable hasn't been set.
@@ -144,6 +168,24 @@ public sealed class TextBoxElement : IContainerNode
         }
         get {
             if(back is not null) return back.Height;
+            else return null;
+        }
+    }
+        public int? MinWidth {
+        set {
+            if(back is not null)back.MinWidth = value;
+        }
+        get {
+            if(back is not null) return back.MinWidth;
+            else return null;
+        }
+    }
+    public int? MinHeight {
+        set {
+            if(back is not null)back.MinHeight = value;
+        }
+        get {
+            if(back is not null) return back.MinHeight;
             else return null;
         }
     }

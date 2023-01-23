@@ -11,6 +11,9 @@ public interface INode
     int? Width {get;set;}
     int? Height {get;set;}
 
+    int? MinWidth {get;set;}
+    int? MinHeight {get;set;}
+
     //Elements just draw themself
     // Containers should call this function on all of its children.
     void Draw(IDisplay display);

@@ -3,10 +3,36 @@ namespace BasicGUI;
 //Represents an indeterminant position.
 public struct NodeBounds
 {
-    public int? X, Y, W, H;
-    public NodeBounds(int? x, int? y, int? w, int? h){
+    public int? X, Y, MW, MH;
+    //These are methods to enfoce the minimum width and height
+    public int? W
+    {
+        get => _w;
+        set
+        {
+            _w = value;
+            if(_w is not null && MW is not null && _w < MW)_w = MW;
+        }
+    }
+    public int? H
+        {
+        get => _h;
+        set
+        {
+            _h = value;
+            if(_h is not null && MH is not null && _h < MH)_w = MH;
+        }
+    }
+
+    private int? _w, _h;
+    public NodeBounds(int? x, int? y, int? w, int? h, int? mw, int? mh){
         this.X = x;
         this.Y = y;
+        this.MW = mw;
+        this.MH = mh;
+        this._w = w;
+        this._h = h;
+        //I set them twice because I can't use these minimum enforcing ones before first setting all of the variables.
         this.W = w;
         this.H = h;
     }
@@ -22,13 +48,12 @@ public struct NodeBounds
 
     public override string ToString()
     {
-        return $"({X},{Y},{W},{H})";
+        return $"({X},{Y},{W},{H},{MW},{MH})";
     }
 }
 
 public static class KeyConverter
 {
-
     public static char? KeyDown(KeyCode keyIn, bool capsLock, bool shift, bool numLock)
     {
         //one or the other makes caps, 

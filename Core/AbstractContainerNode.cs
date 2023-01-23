@@ -108,6 +108,8 @@ public abstract class AbstractContainerNode : IContainerNode
     public int? YPos {set => _bounds.Y = value; get => _bounds.Y;}
     public int? Width {set => _bounds.W = value; get => _bounds.W;}
     public int? Height {set => _bounds.H = value; get => _bounds.H;}
+    public int? MinWidth {set => _bounds.MW = value; get => _bounds.MW;}
+    public int? MinHeight {set => _bounds.MH = value; get => _bounds.MH;}
     public List<INode> GetChildren() => _children;
     public void AddChild(INode child) {_children.Add(child);}
 
