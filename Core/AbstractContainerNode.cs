@@ -16,7 +16,11 @@ public abstract class AbstractContainerNode : IContainerNode
     public bool shrink; //weather or not to shrink the bounds of this container to the elements it contains.
     //IMPORTANT: Custom nodes that use this class as a base MUST implement this function. No exceptions.
     protected abstract void PositionChildren();
-    public IContainerNode? GetParent() => _parent;
+    public IContainerNode? Parent
+    {
+        get => _parent;
+        set => _parent = value;
+    }
 
     void DetermineBounds()
     {

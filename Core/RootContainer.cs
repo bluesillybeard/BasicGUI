@@ -11,8 +11,11 @@ public class RootContainer : IContainerNode
         Width = width;
         Height = height;
     }
-    public IContainerNode? GetParent() => null;
-    public void Iterate()
+    public IContainerNode? Parent
+    {
+        get => null;
+        set {}
+    }    public void Iterate()
     {
         //Iterate children
         foreach(INode child in _children){

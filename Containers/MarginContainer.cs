@@ -21,7 +21,7 @@ public sealed class MarginContainer : AbstractContainerNode
         //Before the children are placed,
         // we need to subtract the margin from our size,
         // so elements below are placed properly
-        IContainerNode? parent = GetParent();
+        IContainerNode? parent = Parent;
         this.Bounds = parent is null ? new NodeBounds() : parent.Bounds;
         this.XPos = null;
         this.YPos = null;

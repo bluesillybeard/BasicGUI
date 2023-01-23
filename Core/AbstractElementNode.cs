@@ -22,8 +22,11 @@ public abstract class AbstractElementNode : IElementNode
             this.YPos += _parent.YPos ?? 0;
         }
     }
-    public IContainerNode? GetParent()=> _parent;
-
+    public IContainerNode? Parent
+    {
+        get => _parent;
+        set => _parent = value;
+    }
     public NodeBounds Bounds {set => _bounds = value; get => _bounds;}
     public int? XPos {set => _bounds.X = value; get => _bounds.X;}
     public int? YPos {set => _bounds.Y = value; get => _bounds.Y;}

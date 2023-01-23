@@ -17,7 +17,7 @@ public sealed class CenterContainer : AbstractContainerNode
     public CenterContainer(IContainerNode? parent) : base(parent){}
     protected override void PositionChildren()
     {
-        IContainerNode? parent = GetParent();
+        IContainerNode? parent = Parent;
         int? parentWidth = parent is null ? null : parent.Width;
         int? parentHeight = parent is null ? null : parent.Height;
         if(parentHeight is null || parentWidth is null)

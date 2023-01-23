@@ -96,8 +96,11 @@ public sealed class TextBoxElement : IContainerNode
         }
 
     }
-    public IContainerNode? GetParent()=> _parent;
-
+    public IContainerNode? Parent
+    {
+        get => _parent;
+        set => _parent = value;
+    }
     public NodeBounds Bounds {
         set {
             if(back is not null)back.Bounds = value;

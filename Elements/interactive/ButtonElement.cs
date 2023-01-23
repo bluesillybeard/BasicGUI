@@ -100,8 +100,11 @@ public sealed class ButtonElement : IContainerNode
             this.YPos += _parent.YPos ?? 0;
         }
     }
-    public IContainerNode? GetParent()=> _parent;
-
+    public IContainerNode? Parent
+    {
+        get => _parent;
+        set => _parent = value;
+    }
     public NodeBounds Bounds {
         set {
             if(drawable is not null)drawable.Bounds = value;

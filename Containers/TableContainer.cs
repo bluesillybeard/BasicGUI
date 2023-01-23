@@ -8,7 +8,11 @@ public sealed class TableContainer : IContainerNode
 {
     public Func<TableContainer, INode> boxFactory;
     public int columns;
-    public IContainerNode? GetParent() => _parent;
+    public IContainerNode? Parent
+    {
+        get => _parent;
+        set => _parent = value;
+    }
     public void Interact(IDisplay display) 
     {
         foreach(INode node in _children)

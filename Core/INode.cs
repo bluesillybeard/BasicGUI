@@ -3,7 +3,7 @@ namespace BasicGUI;
 using System.Numerics;
 public interface INode
 {
-    IContainerNode? GetParent();
+    IContainerNode? Parent{get;set;}
     //These return null if it's unset, a value if it is set.
     NodeBounds Bounds {get;set;}
     int? XPos {get;set;}
