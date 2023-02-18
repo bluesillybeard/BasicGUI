@@ -175,6 +175,4 @@ public sealed class ButtonElement : IContainerNode
         }
     }
     private IContainerNode? _parent;
-
-    private List<INode>? __childCache;
 }
