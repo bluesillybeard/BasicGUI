@@ -12,6 +12,10 @@ public sealed class TextBoxElement : IContainerNode
     private TextElement text; //the text object to render the text.
 
     public string GetText() {return text.Text;}
+    public void SetText(string t)
+    {
+        text.Text = t;
+    }
     public TextBoxElement(IContainerNode? parent, int fontSize, uint fontColor, object font, IDisplay display, byte depth)
     {
         back = null;
