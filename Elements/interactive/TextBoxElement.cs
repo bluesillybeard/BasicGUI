@@ -11,6 +11,8 @@ public sealed class TextBoxElement : IContainerNode
     public INode? back; //This is the element that actually gets drawn as the text background.
     private TextElement text; //the text object to render the text.
 
+    public bool changed;
+
     public string GetText() {return text.Text;}
     public void SetText(string t)
     {
@@ -96,9 +98,10 @@ public sealed class TextBoxElement : IContainerNode
                         builder.Append(c);
                         break;
                 }
+                changed = true;
             }
         }
-            text.Text = builder.ToString();
+        text.Text = builder.ToString();
     }
 
     public void Draw(IDisplay display)
