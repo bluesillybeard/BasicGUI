@@ -82,7 +82,11 @@ public sealed class TableContainer : IContainerNode
             }
         }
 
-        foreach(INode child in _children){
+        for(int i=0; i<_children.Count; i++){
+            INode child = _children[i];
+            //We want the child to be the same size as the cell so that it can be selected by clicking anywhere in the cell.
+            child.MinHeight = boundBoxes[i].Height - 2*_margin;
+            child.MinWidth = boundBoxes[i].Width - 2*_margin;
             if(child is IContainerNode container){
                 container.Iterate();
             }
