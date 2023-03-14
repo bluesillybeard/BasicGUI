@@ -60,10 +60,15 @@ public sealed class TableContainer : IContainerNode
         _children.Remove(child);
     }
     public void Iterate(){
-        //Make sure we have enough bounding boxes to surround the elements.
+        //Make sure we have the right amount of bounding boxes to surround the elements.
         int numBoxes = boundBoxes.Count;
         IReadOnlyList<INode> children = GetChildren();
         int numChildren = children.Count;
+        if(numBoxes > children.Count)
+        {
+            boundBoxes.Clear();
+            numBoxes = 0;
+        }
         if(numBoxes < children.Count)
         {
             acceptChildren = false;
@@ -73,6 +78,7 @@ public sealed class TableContainer : IContainerNode
             }
             acceptChildren = true;
         }
+
         //If the bounding boxes are containers, then we should also iterate those.
         foreach(INode node in boundBoxes)
         {
