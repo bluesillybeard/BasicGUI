@@ -56,6 +56,6 @@ public interface IDisplay
     bool CapsLock();
     bool NumLock();
     bool ScrollLock();
-
+    float ScrollDelta();
     
 }
