@@ -112,8 +112,8 @@ public sealed class TableContainer : IContainerNode
             for(int column = 0; column < columns; column++)
             {
                 INode element = children[column + row*columns];
-                int elementWidth = element.Width ?? 0; //null values are treated as 0
-                int elementHeight = element.Height ?? 0;
+                int elementWidth = element.MinWidth ??  element.Width ?? 0; //null values are treated as 0
+                int elementHeight = element.MinHeight ?? element.Height ?? 0;
                 if(columnMaxes[column] < elementWidth)
                 {
                     columnMaxes[column] = elementWidth;
