@@ -59,7 +59,8 @@ public sealed class TableContainer : IContainerNode
     {
         _children.Remove(child);
     }
-    public void Iterate(){
+    public void Iterate()
+    {
         //Make sure we have the right amount of bounding boxes to surround the elements.
         int numBoxes = boundBoxes.Count;
         IReadOnlyList<INode> children = GetChildren();
@@ -88,7 +89,8 @@ public sealed class TableContainer : IContainerNode
             }
         }
 
-        for(int i=0; i<_children.Count; i++){
+        for(int i=0; i<_children.Count; i++)
+        {
             INode child = _children[i];
             //We want the child to be the same size as the cell so that it can be selected by clicking anywhere in the cell.
             //child.MinHeight = boundBoxes[i].Height - 2*_margin;
@@ -159,7 +161,8 @@ public sealed class TableContainer : IContainerNode
             this.XPos += _parent.XPos ?? 0;
             this.YPos += _parent.YPos ?? 0;
         }
-        foreach(INode child in _children){
+        foreach(INode child in _children)
+        {
             child.Absolutize();
         }
         foreach(INode node in boundBoxes)
@@ -171,7 +174,8 @@ public sealed class TableContainer : IContainerNode
     //We also need to override the Draw method so the border elements can also be drawn.
     public void Draw(IDisplay display)
     {
-        foreach(INode node in boundBoxes){
+        foreach(INode node in boundBoxes)
+        {
             node.Draw(display);
         }
         foreach(INode node in _children)
@@ -222,9 +226,6 @@ public sealed class TableContainer : IContainerNode
         // We couldn't do that anyway since the position of an element is relative to its parent.
     }
 
-    
-
-
     public NodeBounds Bounds {set => _bounds = value; get => _bounds;}
     public int? XPos {set => _bounds.X = value; get => _bounds.X;}
     public int? YPos {set => _bounds.Y = value; get => _bounds.Y;}
@@ -233,17 +234,10 @@ public sealed class TableContainer : IContainerNode
     public int? MinWidth {set => _bounds.MW = value; get => _bounds.MW;}
     public int? MinHeight {set => _bounds.MH = value; get => _bounds.MH;}
     public IReadOnlyList<INode> GetChildren() => _children;
-
     private int _margin;
-
-
     private IContainerNode? _parent;
     private NodeBounds _bounds;
-
-
     private List<INode> _children;
     private List<INode> boundBoxes; //a chache of bounding elements. Each one serves as the background of the element with the same index.
-
     private bool acceptChildren; //weather or not to add children.
-
 }
