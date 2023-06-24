@@ -91,8 +91,9 @@ public sealed class TableContainer : IContainerNode
         for(int i=0; i<_children.Count; i++){
             INode child = _children[i];
             //We want the child to be the same size as the cell so that it can be selected by clicking anywhere in the cell.
-            child.MinHeight = boundBoxes[i].Height - 2*_margin;
-            child.MinWidth = boundBoxes[i].Width - 2*_margin;
+            //child.MinHeight = boundBoxes[i].Height - 2*_margin;
+            //child.MinWidth = boundBoxes[i].Width - 2*_margin;
+            //Seems messing with the childrens dimentions like this was a bad idea
             if(child is IContainerNode container){
                 container.Iterate();
             }
@@ -112,8 +113,8 @@ public sealed class TableContainer : IContainerNode
             for(int column = 0; column < columns; column++)
             {
                 INode element = children[column + row*columns];
-                int elementWidth = element.MinWidth ??  element.Width ?? 0; //null values are treated as 0
-                int elementHeight = element.MinHeight ?? element.Height ?? 0;
+                int elementWidth = element.Width ??  element.MinWidth ?? 0; //null values are treated as 0
+                int elementHeight = element.Height ?? element.MinHeight ?? 0;
                 if(columnMaxes[column] < elementWidth)
                 {
                     columnMaxes[column] = elementWidth;
@@ -145,7 +146,6 @@ public sealed class TableContainer : IContainerNode
                 element.YPos = y;
                 element.Width = columnMaxes[column];
                 element.Height = rowMaxes[row];
-
                 x += columnMaxes[column];
             }
             y+= rowMaxes[row];
