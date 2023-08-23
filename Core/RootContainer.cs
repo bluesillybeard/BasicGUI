@@ -58,9 +58,8 @@ public class RootContainer : IContainerNode
         _selection = selection;
     }
 
-
     public NodeBounds Bounds {
-        get => new NodeBounds(0, 0, Width, Height, 0, 0);
+        get => new(0, 0, Width, Height, 0, 0);
         set {
             //XPos and YPos must always be 0, so the position is ignored.
             Width = value.W;
@@ -77,12 +76,10 @@ public class RootContainer : IContainerNode
     public void AddChild(INode child) {_children.Add(child);}
     public void AddChildBeginning(INode child) {_children.Insert(0, child);}
     public void RemoveChild(INode child) {_children.Remove(child);}
-    
 
-    private List<INode> _children;
+    private readonly List<INode> _children;
     private int _width;
     private int _height;
 
     private INode? _selection;
-
 }

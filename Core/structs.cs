@@ -7,7 +7,7 @@ public struct NodeBounds
     //These are methods to enfoce the minimum width and height
     public int? W
     {
-        get => _w;
+        readonly get => _w;
         set
         {
             _w = value;
@@ -16,7 +16,7 @@ public struct NodeBounds
     }
     public int? H
         {
-        get => _h;
+        readonly get => _h;
         set
         {
             _h = value;
@@ -36,8 +36,7 @@ public struct NodeBounds
         this.W = w;
         this.H = h;
     }
-
-    public bool ContainsPoint(int xp, int yp)
+    public readonly bool ContainsPoint(int xp, int yp)
     {
         int x0 = X ?? 0;
         int y0 = Y ?? 0;
@@ -46,7 +45,7 @@ public struct NodeBounds
         return xp > x0 && xp < xf && yp > y0 && yp < yf;
     }
 
-    public override string ToString()
+    public override readonly string ToString()
     {
         return $"({X},{Y},{W},{H},{MW},{MH})";
     }
@@ -62,146 +61,77 @@ public static class KeyConverter
         //C# switch statements are truly awful.
         // Get your switch game on Microsoft!
         // I thought C# was supposed to be better than Java!
-        switch(keyIn)
+        return keyIn switch
         {
-            case KeyCode.backspace:
-                return '\b';
-            case KeyCode.tab:
-                return '\t';
-            case KeyCode.enter:
-                return '\n';
-            case KeyCode.space:
-                return ' ';
-            case KeyCode.zero:
-                return shift ? ')' : '0';
-            case KeyCode.one:
-                return shift ? '!' : '1';
-            case KeyCode.two:
-                return shift ? '@' : '2';
-            case KeyCode.three:
-                return shift ? '#' : '3';
-            case KeyCode.four:
-                return shift ? '$' : '4';
-            case KeyCode.five:
-                return shift ? '%' : '5';
-            case KeyCode.six:
-                return shift ? '^' : '6';
-            case KeyCode.seven:
-                return shift ? '&' : '7';
-            case KeyCode.eight:
-                return shift ? '*' : '8';
-            case KeyCode.nine:
-                return shift ? '(' : '9';
-            case KeyCode.a:
-                return capitalize ? 'A' : 'a';
-            case KeyCode.b:
-                return capitalize ? 'B' : 'b';
-            case KeyCode.c:
-                return capitalize ? 'C' : 'c';
-            case KeyCode.d:
-                return capitalize ? 'D' : 'd';
-            case KeyCode.e:
-                return capitalize ? 'E' : 'e';
-            case KeyCode.f:
-                return capitalize ? 'F' : 'f';
-            case KeyCode.g:
-                return capitalize ? 'G' : 'g';
-            case KeyCode.h:
-                return capitalize ? 'H' : 'h';
-            case KeyCode.i:
-                return capitalize ? 'I' : 'i';
-            case KeyCode.j:
-                return capitalize ? 'J' : 'j';
-            case KeyCode.k:
-                return capitalize ? 'K' : 'k';
-            case KeyCode.l:
-                return capitalize ? 'L' : 'l';
-            case KeyCode.m:
-                return capitalize ? 'M' : 'm';
-            case KeyCode.n:
-                return capitalize ? 'N' : 'n';
-            case KeyCode.o:
-                return capitalize ? 'O' : 'o';
-            case KeyCode.p:
-                return capitalize ? 'P' : 'p';
-            case KeyCode.q:
-                return capitalize ? 'Q' : 'q';
-            case KeyCode.r:
-                return capitalize ? 'R' : 'r';
-            case KeyCode.s:
-                return capitalize ? 'S' : 's';
-            case KeyCode.t:
-                return capitalize ? 'T' : 't';
-            case KeyCode.u:
-                return capitalize ? 'U' : 'u';
-            case KeyCode.v:
-                return capitalize ? 'V' : 'v';
-            case KeyCode.w:
-                return capitalize ? 'W' : 'w';
-            case KeyCode.x:
-                return capitalize ? 'X' : 'x';
-            case KeyCode.y:
-                return capitalize ? 'Y' : 'y';
-            case KeyCode.z:
-                return capitalize ? 'Z' : 'z';
-            case KeyCode.num0:
-                return numLock ? '0': null;
-            case KeyCode.num1:
-                return numLock ? '1': null;
-            case KeyCode.num2:
-                return numLock ? '2': null;
-            case KeyCode.num3:
-                return numLock ? '3': null;
-            case KeyCode.num4:
-                return numLock ? '4': null;
-            case KeyCode.num5:
-                return numLock ? '5': null;
-            case KeyCode.num6:
-                return numLock ? '6': null;
-            case KeyCode.num7:
-                return numLock ? '7': null;
-            case KeyCode.num8:
-                return numLock ? '8': null;
-            case KeyCode.num9:
-                return numLock ? '9': null;
-            case KeyCode.multiply:
-                return numLock ? '*': null;
-            case KeyCode.add:
-                return numLock ? '+': null;
-            case KeyCode.subtract:
-                return numLock ? '-': null;
-            case KeyCode.decimalPoint:
-                return numLock ? '.': null;
-            case KeyCode.divide:
-                return numLock ? '/': null;
-            case KeyCode.numLock:
-                numLock = !numLock; //numlock is a toggle
-                return null;
-            case KeyCode.semicolon:
-                return shift ? ':' : ';';
-            case KeyCode.equals:
-                return shift ? '+' : '=';
-            case KeyCode.comma:
-                return shift ? '<' : ',';
-            case KeyCode.dash:
-                return shift ? '_' : '-';
-            case KeyCode.period:
-                return shift ? '>' : '.';
-            case KeyCode.slash:
-                return shift ? '?' : '/';
-            case KeyCode.grave:
-                return shift ? '~' : '`';
-            case KeyCode.bracketLeft:
-                return shift ? '{' : '[';
-            case KeyCode.backSlash:
-                return shift ? '|' : '\\';
-            case KeyCode.bracketRight:
-                return shift ? '}' : ']';
-            case KeyCode.quote:
-                return shift ? '\"' : '\'';
+            KeyCode.backspace => '\b',
+            KeyCode.tab => '\t',
+            KeyCode.enter => '\n',
+            KeyCode.space => ' ',
+            KeyCode.zero => shift ? ')' : '0',
+            KeyCode.one => shift ? '!' : '1',
+            KeyCode.two => shift ? '@' : '2',
+            KeyCode.three => shift ? '#' : '3',
+            KeyCode.four => shift ? '$' : '4',
+            KeyCode.five => shift ? '%' : '5',
+            KeyCode.six => shift ? '^' : '6',
+            KeyCode.seven => shift ? '&' : '7',
+            KeyCode.eight => shift ? '*' : '8',
+            KeyCode.nine => shift ? '(' : '9',
+            KeyCode.a => capitalize ? 'A' : 'a',
+            KeyCode.b => capitalize ? 'B' : 'b',
+            KeyCode.c => capitalize ? 'C' : 'c',
+            KeyCode.d => capitalize ? 'D' : 'd',
+            KeyCode.e => capitalize ? 'E' : 'e',
+            KeyCode.f => capitalize ? 'F' : 'f',
+            KeyCode.g => capitalize ? 'G' : 'g',
+            KeyCode.h => capitalize ? 'H' : 'h',
+            KeyCode.i => capitalize ? 'I' : 'i',
+            KeyCode.j => capitalize ? 'J' : 'j',
+            KeyCode.k => capitalize ? 'K' : 'k',
+            KeyCode.l => capitalize ? 'L' : 'l',
+            KeyCode.m => capitalize ? 'M' : 'm',
+            KeyCode.n => capitalize ? 'N' : 'n',
+            KeyCode.o => capitalize ? 'O' : 'o',
+            KeyCode.p => capitalize ? 'P' : 'p',
+            KeyCode.q => capitalize ? 'Q' : 'q',
+            KeyCode.r => capitalize ? 'R' : 'r',
+            KeyCode.s => capitalize ? 'S' : 's',
+            KeyCode.t => capitalize ? 'T' : 't',
+            KeyCode.u => capitalize ? 'U' : 'u',
+            KeyCode.v => capitalize ? 'V' : 'v',
+            KeyCode.w => capitalize ? 'W' : 'w',
+            KeyCode.x => capitalize ? 'X' : 'x',
+            KeyCode.y => capitalize ? 'Y' : 'y',
+            KeyCode.z => capitalize ? 'Z' : 'z',
+            KeyCode.num0 => numLock ? '0' : null,
+            KeyCode.num1 => numLock ? '1' : null,
+            KeyCode.num2 => numLock ? '2' : null,
+            KeyCode.num3 => numLock ? '3' : null,
+            KeyCode.num4 => numLock ? '4' : null,
+            KeyCode.num5 => numLock ? '5' : null,
+            KeyCode.num6 => numLock ? '6' : null,
+            KeyCode.num7 => numLock ? '7' : null,
+            KeyCode.num8 => numLock ? '8' : null,
+            KeyCode.num9 => numLock ? '9' : null,
+            KeyCode.multiply => numLock ? '*' : null,
+            KeyCode.add => numLock ? '+' : null,
+            KeyCode.subtract => numLock ? '-' : null,
+            KeyCode.decimalPoint => numLock ? '.' : null,
+            KeyCode.divide => numLock ? '/' : null,
+            KeyCode.numLock => null,//numLock = !numLock; //numlock is a toggle
+            KeyCode.semicolon => shift ? ':' : ';',
+            KeyCode.equals => shift ? '+' : '=',
+            KeyCode.comma => shift ? '<' : ',',
+            KeyCode.dash => shift ? '_' : '-',
+            KeyCode.period => shift ? '>' : '.',
+            KeyCode.slash => shift ? '?' : '/',
+            KeyCode.grave => shift ? '~' : '`',
+            KeyCode.bracketLeft => shift ? '{' : '[',
+            KeyCode.backSlash => shift ? '|' : '\\',
+            KeyCode.bracketRight => shift ? '}' : ']',
+            KeyCode.quote => shift ? '\"' : '\'',
             //This means its intentionally left out and should do nothing
-            default:
-                return null;
-        }
+            _ => null,
+        };
     }
 }

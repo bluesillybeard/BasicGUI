@@ -8,12 +8,8 @@ public sealed class TableContainer : IContainerNode
 {
     public Func<TableContainer, INode> boxFactory;
     public int columns;
-    public IContainerNode? Parent
-    {
-        get => _parent;
-        set => _parent = value;
-    }
-    public void Interact(IDisplay display) 
+    public IContainerNode? Parent { get; set; }
+    public void Interact(IDisplay display)
     {
         foreach(INode node in _children)
         {
@@ -23,20 +19,20 @@ public sealed class TableContainer : IContainerNode
 
     public INode? GetSelectedNode()
     {
-        return _parent is null ? null : _parent.GetSelectedNode();
+        return Parent?.GetSelectedNode();
     }
 
     public void OnSelect(INode? selection)
     {
-        if(_parent is not null) _parent.OnSelect(selection);
+        Parent?.OnSelect(selection);
     }
 
     public TableContainer(Func<TableContainer, INode> unboundedBoxfactory, int columns, List<INode> children, IContainerNode? parent, int margin)
     {
         acceptChildren = true;
         _children = children;
-        _parent = parent;
-        if(parent is not null)parent.AddChild(this);
+        Parent = parent;
+        parent?.AddChild(this);
         boxFactory = unboundedBoxfactory;
         this.columns = columns;
         boundBoxes = new List<INode>();
@@ -114,7 +110,7 @@ public sealed class TableContainer : IContainerNode
         {
             for(int column = 0; column < columns; column++)
             {
-                INode element = children[column + row*columns];
+                INode element = children[column + (row * columns)];
                 int elementWidth = element.Width ??  element.MinWidth ?? 0; //null values are treated as 0
                 int elementHeight = element.Height ?? element.MinHeight ?? 0;
                 if(columnMaxes[column] < elementWidth)
@@ -140,10 +136,10 @@ public sealed class TableContainer : IContainerNode
             int x=0; //X is passed through for each row.
             for(int column = 0; column < columns; column++)
             {
-                INode element = children[column + row*columns];
+                INode element = children[column + (row * columns)];
                 element.XPos = x + _margin;
                 element.YPos = y + _margin;
-                element = boundBoxes[column + row*columns];
+                element = boundBoxes[column + (row * columns)];
                 element.XPos = x;
                 element.YPos = y;
                 element.Width = columnMaxes[column];
@@ -155,11 +151,11 @@ public sealed class TableContainer : IContainerNode
     }
     public void Absolutize()
     {
-        XPos = XPos ?? 0;//set null values to zero
-        YPos = YPos ?? 0;
-        if(_parent is not null){
-            this.XPos += _parent.XPos ?? 0;
-            this.YPos += _parent.YPos ?? 0;
+        XPos ??= 0;//set null values to zero
+        YPos ??= 0;
+        if(Parent is not null){
+            this.XPos += Parent.XPos ?? 0;
+            this.YPos += Parent.YPos ?? 0;
         }
         foreach(INode child in _children)
         {
@@ -234,10 +230,9 @@ public sealed class TableContainer : IContainerNode
     public int? MinWidth {set => _bounds.MW = value; get => _bounds.MW;}
     public int? MinHeight {set => _bounds.MH = value; get => _bounds.MH;}
     public IReadOnlyList<INode> GetChildren() => _children;
-    private int _margin;
-    private IContainerNode? _parent;
+    private readonly int _margin;
     private NodeBounds _bounds;
-    private List<INode> _children;
-    private List<INode> boundBoxes; //a chache of bounding elements. Each one serves as the background of the element with the same index.
+    private readonly List<INode> _children;
+    private readonly List<INode> boundBoxes; //a chache of bounding elements. Each one serves as the background of the element with the same index.
     private bool acceptChildren; //weather or not to add children.
 }

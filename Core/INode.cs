@@ -21,5 +21,4 @@ public interface INode
     ///<summary> changes all of the relative coordinates of elements into absolute coordinates. </summary>
     void Absolutize();
     void Interact(IDisplay display);
-
 }

@@ -46,7 +46,7 @@ public interface IDisplay
     void SetClipboard(string clip);
     bool KeyDown(KeyCode key);
     IEnumerable<KeyCode> DownKeys();
-    bool keyPressed(KeyCode key);
+    bool KeyPressed(KeyCode key);
     IEnumerable<KeyCode> PressedKeys();
     bool KeyReleased(KeyCode key);
     IEnumerable<KeyCode> ReleasedKeys();
@@ -57,5 +57,4 @@ public interface IDisplay
     bool NumLock();
     bool ScrollLock();
     float ScrollDelta();
-    
 }

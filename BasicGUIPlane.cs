@@ -33,8 +33,8 @@ public sealed class BasicGUIPlane
         _root.Width = width;
         _root.Height = height;
     }
-    private RootContainer _root;
-    private IDisplay _display;
+    private readonly RootContainer _root;
+    private readonly IDisplay _display;
     public IDisplay GetDisplay()
     {
         return _display;

@@ -4,7 +4,6 @@ using BasicGUI;
 
 public sealed class MarginContainer : AbstractContainerNode
 {
-
     public uint Left, Top, Right, Bottom;
     public MarginContainer(IContainerNode? parent, uint left, uint top, uint right, uint bottom) : base(parent)
     {

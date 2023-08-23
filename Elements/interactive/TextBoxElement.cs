@@ -9,7 +9,7 @@ using System;
 public sealed class TextBoxElement : IContainerNode
 {
     public INode? back; //This is the element that actually gets drawn as the text background.
-    private TextElement text; //the text object to render the text.
+    private readonly TextElement text; //the text object to render the text.
 
     public bool changed;
 
@@ -21,8 +21,8 @@ public sealed class TextBoxElement : IContainerNode
     public TextBoxElement(IContainerNode? parent, int fontSize, uint fontColor, object font, IDisplay display, byte depth)
     {
         back = null;
-        _parent = parent;
-        if(parent is not null)parent.AddChild(this);
+        Parent = parent;
+        parent?.AddChild(this);
         text = new TextElement(this, fontColor, fontSize, "", font, display, depth);
     }
     public IReadOnlyList<INode> GetChildren()
@@ -33,17 +33,16 @@ public sealed class TextBoxElement : IContainerNode
 
     public void Iterate()
     {
-        
     }
 
     public INode? GetSelectedNode()
     {
-        return _parent is null ? null : _parent.GetSelectedNode();
+        return Parent?.GetSelectedNode();
     }
 
     public void OnSelect(INode? selection)
     {
-        if(_parent is not null)_parent.OnSelect(selection);
+        Parent?.OnSelect(selection);
     }
 
     public void AddChild(INode node)
@@ -79,7 +78,7 @@ public sealed class TextBoxElement : IContainerNode
         bool caps = display.CapsLock();
         bool shift = display.KeyDown(KeyCode.shift);
         bool num = display.NumLock();
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new();
         builder.Append(text.Text);
         foreach(KeyCode key in display.PressedKeys())
         {
@@ -106,17 +105,17 @@ public sealed class TextBoxElement : IContainerNode
 
     public void Draw(IDisplay display)
     {
-        if(back is not null)back.Draw(display);
+        back?.Draw(display);
         text.Draw(display);
     }
     public void Absolutize()
     {
-        XPos = XPos ?? 0;//set null values to zero
-        YPos = YPos ?? 0;
-        if(_parent is not null)
+        XPos ??= 0;//set null values to zero
+        YPos ??= 0;
+        if(Parent is not null)
         {
-            this.XPos += _parent.XPos ?? 0;
-            this.YPos += _parent.YPos ?? 0;
+            this.XPos += Parent.XPos ?? 0;
+            this.YPos += Parent.YPos ?? 0;
         }
         text.XPos = XPos;
         text.YPos = YPos;
@@ -129,15 +128,11 @@ public sealed class TextBoxElement : IContainerNode
             back.Height = text.Height;
         }
     }
-    public IContainerNode? Parent
-    {
-        get => _parent;
-        set => _parent = value;
-    }
+    public IContainerNode? Parent { get; set; }
     public NodeBounds Bounds {
         set {
             if(back is not null)back.Bounds = value;
-        } 
+        }
         get {
             if(back is not null)return back.Bounds;
             else return new NodeBounds(null, null, null, null, null, null);
@@ -198,5 +193,4 @@ public sealed class TextBoxElement : IContainerNode
             else return null;
         }
     }
-    private IContainerNode? _parent;
 }

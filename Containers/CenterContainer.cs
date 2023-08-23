@@ -18,15 +18,15 @@ public sealed class CenterContainer : AbstractContainerNode
     protected override void PositionChildren()
     {
         IContainerNode? parent = Parent;
-        int? parentWidth = parent is null ? null : parent.Width;
-        int? parentHeight = parent is null ? null : parent.Height;
+        int? parentWidth = parent?.Width;
+        int? parentHeight = parent?.Height;
         if(parentHeight is null || parentWidth is null)
         {
             System.Console.Error.WriteLine("BIG ERROR: invalid parent bounds within CenterContainer");
             return;
         }
         foreach(INode node in GetChildren())
-        { 
+        {
             //A nodes position is relative to the top left.
             int? nodeWidth = node.Width;
             int? nodeHeight = node.Height;
@@ -39,5 +39,4 @@ public sealed class CenterContainer : AbstractContainerNode
             node.YPos = (parentHeight.Value - nodeHeight.Value)/2;
         }
     }
-
 }

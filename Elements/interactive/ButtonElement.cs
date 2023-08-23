@@ -20,14 +20,14 @@ public sealed class ButtonElement : IContainerNode
     public Action<ButtonElement>? OnUnClick;
     public Action<ButtonElement>? OnFrame;
 
-    public ButtonElement(IContainerNode? parent, 
+    public ButtonElement(IContainerNode? parent,
     Action<ButtonElement>? onHover, Action<ButtonElement>? onUnHover,
     Action<ButtonElement>? onClick, Action<ButtonElement>? onUnClick,
     Action<ButtonElement>? onFrame)
     {
         this.drawable = null;
-        _parent = parent;
-        if(parent is not null)parent.AddChild(this);
+        Parent = parent;
+        parent?.AddChild(this);
         this.OnClick = onClick;
         this.OnUnClick = onUnClick;
         this.OnHover = onHover;
@@ -51,12 +51,12 @@ public sealed class ButtonElement : IContainerNode
 
     public INode? GetSelectedNode()
     {
-        return _parent is null ? null : _parent.GetSelectedNode();
+        return Parent?.GetSelectedNode();
     }
 
     public void OnSelect(INode? selection)
     {
-        if(_parent is not null)_parent.OnSelect(selection);
+        Parent?.OnSelect(selection);
     }
 
     public void AddChild(INode node)
@@ -93,27 +93,23 @@ public sealed class ButtonElement : IContainerNode
 
     public void Draw(IDisplay display)
     {
-        if(drawable is not null)drawable.Draw(display);
+        drawable?.Draw(display);
     }
     public void Absolutize()
     {
-        XPos = XPos ?? 0;//set null values to zero
-        YPos = YPos ?? 0;
-        if(_parent is not null)
+        XPos ??= 0;//set null values to zero
+        YPos ??= 0;
+        if(Parent is not null)
         {
-            this.XPos += _parent.XPos ?? 0;
-            this.YPos += _parent.YPos ?? 0;
+            this.XPos += Parent.XPos ?? 0;
+            this.YPos += Parent.YPos ?? 0;
         }
     }
-    public IContainerNode? Parent
-    {
-        get => _parent;
-        set => _parent = value;
-    }
+    public IContainerNode? Parent { get; set; }
     public NodeBounds Bounds {
         set {
             if(drawable is not null)drawable.Bounds = value;
-        } 
+        }
         get {
             if(drawable is not null)return drawable.Bounds;
             else return new NodeBounds(null, null, null, null, null, null);
@@ -174,5 +170,4 @@ public sealed class ButtonElement : IContainerNode
             else return null;
         }
     }
-    private IContainerNode? _parent;
 }

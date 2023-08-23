@@ -27,15 +27,15 @@ public sealed class LayoutContainer : AbstractContainerNode
     protected override void PositionChildren()
     {
         IContainerNode? parent = Parent;
-        int? parentWidth = parent is null ? null : parent.Width;
-        int? parentHeight = parent is null ? null : parent.Height;
+        int? parentWidth = parent?.Width;
+        int? parentHeight = parent?.Height;
         if(parentHeight is null || parentWidth is null)
         {
             System.Console.Error.WriteLine("ERROR: invalid parent bounds within LayoutContainer");
             return;
         }
         foreach(INode node in GetChildren())
-        { 
+        {
             //A nodes position is relative to the top left.
             int? nodeWidth = node.Width;
             int? nodeHeight = node.Height;
@@ -44,18 +44,20 @@ public sealed class LayoutContainer : AbstractContainerNode
                 System.Console.Error.WriteLine("Warning: invalid node bounds within LayoutContainer");
                 continue;
             }
-            switch(horizontal){
-                case HAllign.left: node.XPos = 0;break;
-                case HAllign.center: node.XPos = (parentWidth.Value - nodeWidth.Value)/2;break;
-                case HAllign.right: node.XPos = parentWidth.Value - nodeWidth;break;
-                default:node.XPos = null;break;
-            }
-            switch(vertical){
-                case VAllign.top: node.YPos = 0;break;
-                case VAllign.center: node.YPos = (parentHeight.Value - nodeHeight.Value)/2;break;
-                case VAllign.bottom: node.YPos = parentHeight.Value - nodeHeight;break;
-                default:node.YPos = null;break;
-            }
+            node.XPos = horizontal switch
+            {
+                HAllign.left => 0,
+                HAllign.center => (parentWidth.Value - nodeWidth.Value) / 2,
+                HAllign.right => parentWidth.Value - nodeWidth,
+                _ => null,
+            };
+            node.YPos = vertical switch
+            {
+                VAllign.top => 0,
+                VAllign.center => (parentHeight.Value - nodeHeight.Value) / 2,
+                VAllign.bottom => parentHeight.Value - nodeHeight,
+                _ => null,
+            };
         }
     }
 }

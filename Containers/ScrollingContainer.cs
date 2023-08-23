@@ -6,7 +6,6 @@ public sealed class ScrollingContainer : AbstractContainerNode
     public ScrollingContainer(IContainerNode? parent)
     : base(parent, true)
     {
-
     }
 
     public override void Iterate()
@@ -22,7 +21,7 @@ public sealed class ScrollingContainer : AbstractContainerNode
         {
             int y = child.YPos ?? 0;
             child.XPos = 0;
-            child.YPos = y + (int)scroll*10;
+            child.YPos = y + (int)(scroll*10);
         }
     }
 
